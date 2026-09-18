@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>공공계약 운영체제 2026 — 신입사원 계약사무 강의</title>
+<style>
+:root{
+  --bg:#eef1f6;
+  --grid:#dbe1ec;
+  --panel:#ffffff;
+  --panel-2:#f6f8fc;
+  --ink:#111827;
+  --sub:#4b5563;
+  --faint:#8b95a5;
+  --line:#e2e6ee;
+  --accent:#4338ca;
+  --accent-2:#0891b2;
+  --accent-soft:#eef0fe;
+  --ok:#059669;
+  --ok-soft:#ecfdf5;
+  --warn:#b45309;
+  --warn-soft:#fff7ed;
+  --danger:#dc2626;
+  --danger-soft:#fef2f2;
+  --code-bg:#0f172a;
+  --shadow:0 1px 2px rgba(15,23,42,.04), 0 8px 24px rgba(15,23,42,.06);
+  --radius:14px;
+  --maxw:980px;
+}
+[data-theme="dark"]{
+  --bg:#0b1120;
+  --grid:#151d31;
+  --panel:#111a2e;
+  --panel-2:#0e1526;
+  --ink:#e8ecf6;
+  --sub:#aab4c8;
+  --faint:#6b7690;
+  --line:#223050;
+  --accent:#818cf8;
+  --accent-2:#22d3ee;
+  --accent-soft:#1a2140;
+  --ok:#34d399;
+  --ok-soft:#0d2b22;
+  --warn:#fbbf24;
+  --warn-soft:#2c220c;
+  --danger:#f87171;
+  --danger-soft:#2c1414;
+  --code-bg:#050a14;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.4);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",-apple-system,BlinkMacSystemFont,sans-serif;
+  color:var(--ink);
+  background-color:var(--bg);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size:28px 28px;
+  min-height:100vh;
+  transition:background-color .2s, color .2s;
+}
+a{color:var(--accent);text-decoration:none;}
+a:hover{text-decoration:underline;}
+
+/* ---------- top bar ---------- */
+#topbar{
+  position:sticky;top:0;z-index:50;
+  background:rgba(255,255,255,.86);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);
+}
+[data-theme="dark"] #topbar{background:rgba(11,17,32,.86);}
+#topbar-inner{
+  max-width:1180px;margin:0 auto;padding:10px 20px;
+  display:flex;align-items:center;gap:16px;
+}
+#brand{display:flex;align-items:center;gap:8px;font-weight:800;font-size:14px;white-space:nowrap;color:var(--ink);}
+#brand .dot{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 3px var(--ok-soft);}
+#toc-scroll{
+  flex:1;display:flex;gap:6px;overflow-x:auto;scrollbar-width:thin;
+  padding:2px 0;
+}
+#toc-scroll::-webkit-scrollbar{height:4px;}
+#toc-scroll::-webkit-scrollbar-thumb{background:var(--line);border-radius:2px;}
+.toc-chip{
+  flex:0 0 auto;font-size:12px;padding:6px 10px;border-radius:20px;
+  color:var(--sub);border:1px solid transparent;white-space:nowrap;cursor:pointer;
+}
+.toc-chip:hover{background:var(--panel-2);text-decoration:none;}
+.toc-chip.active{background:var(--accent-soft);color:var(--accent);border-color:var(--accent);font-weight:700;}
+#controls{display:flex;gap:6px;flex:0 0 auto;}
+.icon-btn{
+  border:1px solid var(--line);background:var(--panel);color:var(--sub);
+  width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:14px;
+}
+.icon-btn:hover{border-color:var(--accent);color:var(--accent);}
+
+/* ---------- slide area ---------- */
+#stage{max-width:var(--maxw);margin:0 auto;padding:28px 20px 140px;}
+.slide{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:36px 40px;
+  animation:fadeUp .25s ease;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+.eyebrow{
+  display:flex;align-items:center;gap:8px;margin-bottom:10px;
+}
+.eyebrow .part{
+  font-size:11px;font-weight:800;letter-spacing:.06em;color:var(--accent-2);
+  background:var(--accent-soft);border-radius:6px;padding:3px 8px;
+}
+.eyebrow .num{font-size:12px;color:var(--faint);font-family:monospace;}
+h1.title{font-size:28px;line-height:1.35;margin:0 0 6px;letter-spacing:-.01em;}
+p.subtitle{font-size:15px;color:var(--sub);margin:0 0 26px;line-height:1.6;}
+.section-body{font-size:14.5px;line-height:1.7;color:var(--ink);}
+.section-body p{margin:0 0 14px;}
+
+/* ---------- generic building blocks ---------- */
+.grid{display:grid;gap:14px;}
+.grid-2{grid-template-columns:1fr 1fr;}
+.grid-3{grid-template-columns:1fr 1fr 1fr;}
+.grid-4{grid-template-columns:repeat(4,1fr);}
+@media (max-width:760px){
+  .grid-2,.grid-3,.grid-4{grid-template-columns:1fr;}
+}
+.card{
+  background:var(--panel-2);border:1px solid var(--line);border-radius:10px;padding:16px 18px;
+}
+.card h3{margin:0 0 8px;font-size:14.5px;}
+.card p, .card li{font-size:13.5px;color:var(--sub);line-height:1.6;}
+.card ul{margin:0;padding-left:18px;}
+.big-num{font-size:30px;font-weight:800;color:var(--accent);line-height:1;margin-bottom:4px;}
+.big-num.cyan{color:var(--accent-2);}
+
+.badge{
+  display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;
+  border:1px solid var(--line);color:var(--sub);margin-right:4px;
+}
+.badge.ok{color:var(--ok);border-color:var(--ok);background:var(--ok-soft);}
+.badge.warn{color:var(--warn);border-color:var(--warn);background:var(--warn-soft);}
+.badge.danger{color:var(--danger);border-color:var(--danger);background:var(--danger-soft);}
+.badge.accent{color:var(--accent);border-color:var(--accent);background:var(--accent-soft);}
+
+.callout{
+  border-radius:10px;padding:14px 16px;margin:16px 0;border:1px solid var(--line);
+  font-size:13.5px;line-height:1.65;
+}
+.callout.tip{background:var(--accent-soft);border-color:var(--accent);}
+.callout.ok{background:var(--ok-soft);border-color:var(--ok);}
+.callout.warn{background:var(--warn-soft);border-color:var(--warn);}
+.callout.danger{background:var(--danger-soft);border-color:var(--danger);}
+.callout b.lbl{display:block;font-size:11px;letter-spacing:.05em;margin-bottom:6px;text-transform:uppercase;}
+.callout ul{margin:6px 0 0;padding-left:18px;}
+
+table.tbl{width:100%;border-collapse:collapse;font-size:13.5px;margin:8px 0;}
+table.tbl th, table.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+table.tbl th{background:var(--panel-2);font-weight:700;font-size:12.5px;color:var(--sub);}
+
+.flow{display:flex;align-items:stretch;gap:6px;flex-wrap:wrap;margin:14px 0;}
+.flow .step{
+  flex:1;min-width:140px;background:var(--panel-2);border:1px solid var(--line);border-radius:10px;
+  padding:12px 14px;text-align:center;font-size:13px;
+}
+.flow .step b{display:block;font-size:14px;margin-bottom:2px;}
+.flow .arrow{display:flex;align-items:center;justify-content:center;color:var(--faint);font-size:16px;padding:0 2px;}
+@media (max-width:760px){.flow{flex-direction:column;}.flow .arrow{transform:rotate(90deg);}}
+
+.step-progress{display:flex;gap:4px;margin-bottom:16px;}
+.step-progress i{flex:1;height:4px;border-radius:2px;background:var(--line);}
+.step-progress i.on{background:var(--accent);}
+
+.source{margin-top:22px;padding-top:14px;border-top:1px dashed var(--line);font-size:12px;color:var(--faint);}
+.source b{color:var(--sub);}
+
+.toc-part{margin-bottom:22px;}
+.toc-part h4{font-size:12px;letter-spacing:.06em;color:var(--accent-2);margin:0 0 10px;text-transform:uppercase;}
+.toc-list{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+@media (max-width:640px){.toc-list{grid-template-columns:1fr;}}
+.toc-item{
+  display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;
+  background:var(--panel-2);cursor:pointer;font-size:13.5px;
+}
+.toc-item:hover{border-color:var(--accent);}
+.toc-item .n{
+  flex:0 0 26px;height:26px;border-radius:50%;background:var(--panel);border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--accent);
+}
+.checklist{list-style:none;margin:0;padding:0;}
+.checklist li{
+  display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:13.5px;
+}
+.checklist li:last-child{border-bottom:none;}
+.checklist li::before{content:"✓";color:var(--ok);font-weight:800;flex:0 0 auto;}
+
+/* ---------- cover ---------- */
+.cover{
+  text-align:left;position:relative;overflow:hidden;
+}
+.cover .pill{
+  display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--accent-2);
+  background:var(--accent-soft);border:1px solid var(--accent-2);border-radius:20px;padding:5px 12px;margin-bottom:18px;
+}
+.cover .pill .dot{width:6px;height:6px;border-radius:50%;background:var(--accent-2);}
+.cover h1{font-size:38px;line-height:1.25;margin:0 0 10px;}
+.cover .lead{font-size:16px;color:var(--sub);margin-bottom:22px;}
+.cover .meta{font-family:monospace;font-size:12px;color:var(--faint);border-top:1px solid var(--line);padding-top:14px;}
+
+/* ---------- bottom nav ---------- */
+#navbar{
+  position:fixed;left:0;right:0;bottom:0;z-index:50;
+  background:rgba(255,255,255,.9);backdrop-filter:blur(8px);border-top:1px solid var(--line);
+}
+[data-theme="dark"] #navbar{background:rgba(11,17,32,.9);}
+#navbar-inner{
+  max-width:var(--maxw);margin:0 auto;padding:10px 20px;
+  display:flex;align-items:center;gap:12px;
+}
+.nav-btn{
+  border:1px solid var(--line);background:var(--panel);color:var(--ink);
+  padding:7px 14px;border-radius:8px;font-size:13px;cursor:pointer;font-weight:600;
+}
+.nav-btn:hover{border-color:var(--accent);color:var(--accent);}
+.nav-btn:disabled{opacity:.35;cursor:default;}
+#dots{flex:1;display:flex;justify-content:center;gap:5px;flex-wrap:wrap;}
+.dot-btn{width:7px;height:7px;border-radius:50%;background:var(--line);border:none;cursor:pointer;padding:0;}
+.dot-btn.active{background:var(--accent);width:16px;border-radius:4px;}
+#counter{font-size:12px;color:var(--faint);font-family:monospace;white-space:nowrap;}
+#copylink{font-size:12px;}
+
+.hint{position:fixed;right:16px;bottom:60px;font-size:11px;color:var(--faint);background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:6px 10px;box-shadow:var(--shadow);display:none;}
+@media (min-width:900px){.hint{display:block;}}
+
+@media print{
+  #topbar,#navbar,.hint{display:none;}
+  .slide{box-shadow:none;border:none;page-break-after:always;}
+}
+</style>
+</head>
+<body>
+
+<div id="topbar">
+  <div id="topbar-inner">
+    <div id="brand"><span class="dot"></span>KISED 계약사무 OS</div>
+    <nav id="toc-scroll"></nav>
+    <div id="controls">
+      <button class="icon-btn" id="btn-theme" title="밝게/어둡게 (T)">🌓</button>
+      <button class="icon-btn" id="btn-fs" title="전체화면 (F)">⛶</button>
+      <button class="icon-btn" id="btn-print" title="인쇄">🖨</button>
+    </div>
+  </div>
+</div>
+
+<div id="stage"></div>
+
+<div id="navbar">
+  <div id="navbar-inner">
+    <button class="nav-btn" id="btn-prev">← 이전</button>
+    <div id="dots"></div>
+    <span id="counter"></span>
+    <button class="nav-btn" id="copylink" title="이 화면 링크 복사">🔗 링크복사</button>
+    <button class="nav-btn" id="btn-next">다음 →</button>
+  </div>
+</div>
+
+<div class="hint">← → 이동 · Home/End 처음·끝 · F 전체화면 · T 다크모드</div>
+
+<script>
+/* =========================================================================
+   콘텐츠 데이터 — 슬라이드 내용을 고치려면 이 배열만 수정하면 됩니다.
+   html 필드 안의 마크업은 위 CSS 클래스(card / grid-2 / callout 등)를 그대로 씁니다.
+   ========================================================================= */
+const SLIDES = [
+
+{
+  part:"COVER", title:"공공계약 운영체제 2026", subtitle:"",
+  cover:true,
+  html:`
+    <span class="pill"><span class="dot"></span>System Boot Sequence Initiated</span>
+    <h1>공공계약 운영체제 2026</h1>
+    <p class="lead">창업진흥원 신입사원을 위한 계약 실무 및 내부통제 가이드</p>
+    <div class="callout tip" style="margin-top:0;">
+      <b class="lbl">이 자료 사용법</b>
+      위 상단 목차에서 원하는 주제를 눌러 바로 이동할 수 있고, 화면 하단의 이전·다음 버튼이나
+      키보드 방향키(← →)로도 넘길 수 있습니다. 각 화면은 고유한 링크(주소창의 <code>#/번호</code>)를
+      가지므로, 특정 화면만 동료에게 링크로 공유할 수도 있습니다.
+    </div>
+    <div class="meta">v.2026.09.18 · 창업진흥원 재무계약실 · System Status: ONLINE</div>
+  `
+},
+
+{
+  part:"목차", title:"전체 지도 — 4개의 파트로 구성됩니다", subtitle:"클릭하면 해당 화면으로 바로 이동합니다.",
+  html:`
+    <div class="toc-part">
+      <h4>Part 1 · 계약의 대원칙과 조달 방식</h4>
+      <div class="toc-list">
+        <div class="toc-item" data-goto="3"><span class="n">3</span>계약의 대원칙 — 일반경쟁입찰</div>
+        <div class="toc-item" data-goto="4"><span class="n">4</span>조달 방식의 분기 (자체조달 / 중앙조달)</div>
+        <div class="toc-item" data-goto="5"><span class="n">5</span>계약방법 필터링 (수의·제한·협상)</div>
+      </div>
+    </div>
+    <div class="toc-part">
+      <h4>Part 2 · 업무 프로세스 4단계</h4>
+      <div class="toc-list">
+        <div class="toc-item" data-goto="6"><span class="n">6</span>2026 권한분리 — 사업부서 vs 재무계약실</div>
+        <div class="toc-item" data-goto="7"><span class="n">7</span>Step 1 · 사전 준비 및 의뢰</div>
+        <div class="toc-item" data-goto="8"><span class="n">8</span>Step 2 · 공고 및 평가</div>
+        <div class="toc-item" data-goto="9"><span class="n">9</span>Step 3 · 협상 및 체결</div>
+        <div class="toc-item" data-goto="10"><span class="n">10</span>Step 4 · 이행 및 대가지급</div>
+      </div>
+    </div>
+    <div class="toc-part">
+      <h4>Part 3 · 사회적 가치와 내부통제</h4>
+      <div class="toc-list">
+        <div class="toc-item" data-goto="11"><span class="n">11</span>중소기업 보호 — 직접생산확인제도</div>
+        <div class="toc-item" data-goto="12"><span class="n">12</span>우선구매 목표 관리</div>
+        <div class="toc-item" data-goto="13"><span class="n">13</span>수의계약 내부통제</div>
+        <div class="toc-item" data-goto="14"><span class="n">14</span>분할계약(쪼개기) 금지</div>
+        <div class="toc-item" data-goto="15"><span class="n">15</span>계약 무결성 검증과 제재</div>
+      </div>
+    </div>
+    <div class="toc-part">
+      <h4>Part 4 · 마무리</h4>
+      <div class="toc-list">
+        <div class="toc-item" data-goto="16"><span class="n">16</span>전체 여정 요약</div>
+        <div class="toc-item" data-goto="17"><span class="n">17</span>신입사원 체크리스트 &amp; 참고자료</div>
+      </div>
+    </div>
+  `
+},
+
+{
+  part:"PART 1 · 원칙", title:"계약의 대원칙 — 일반경쟁입찰", subtitle:"공공재원 집행의 투명성과 공정성을 확보하기 위한 기본값(Default)입니다.",
+  html:`
+    <div class="callout tip">
+      <b class="lbl">핵심 조문</b>
+      <b>국가계약법 제5조(계약의 원칙)</b> — 계약은 당사자가 대등한 입장에서 서로의 이익을 공정하게 다루어야 하며,
+      계약상대자의 계약상 이익을 부당하게 제한하는 특약은 무효입니다(제5조 제3·4항, 2019.11.26. 신설).<br>
+      <b>국가계약법 제7조(계약의 방법)</b> — 계약은 원칙적으로 <b>일반경쟁</b>에 부쳐야 하며, 계약의 목적·성질·규모 등을 고려해
+      필요한 경우에만 참가자격을 제한(제한경쟁)하거나 지명(지명경쟁)하거나 수의계약을 할 수 있습니다.
+    </div>
+    <div class="grid grid-3">
+      <div class="card"><h3>제한경쟁</h3><p>목적과 규모에 따라 참가자격을 필터링합니다. 예: 지역제한, 중소기업자간 경쟁제품, 실적제한.</p></div>
+      <div class="card"><h3>지명경쟁</h3><p>특수한 기술·설비가 필요한 경우 등 조건에 맞는 대상자를 지정하여 경쟁시킵니다.</p></div>
+      <div class="card"><h3>수의계약</h3><p>소액·긴급·특허 등 예외적 사유가 있을 때만 경쟁 절차 없이 직접 체결합니다.</p></div>
+    </div>
+    <div class="callout warn">
+      <b class="lbl">신입사원 주의</b>
+      창업진흥원은 <b>기타공공기관</b>이므로 국가계약법 체계(기타공공기관 계약사무 운영규정 경유)를 따릅니다.
+      지방자치단체가 적용하는 <b>지방계약법</b>과는 근거 법령·금액 기준이 다르므로 혼동하지 않도록 합니다.
+    </div>
+    <div class="source"><b>근거</b>: 국가계약법 제5조·제7조 / 기타공공기관 계약사무 운영규정(훈령 제152호)</div>
+  `
+},
+
+{
+  part:"PART 1 · 조달방식", title:"조달 방식의 분기 — 자체조달 vs 중앙조달", subtitle:"고시금액을 기준으로 발주 창구(자체조달/중앙조달)가 자동으로 나뉩니다.",
+  html:`
+    <div class="grid grid-2">
+      <div class="card">
+        <h3>자체조달 — 창업진흥원 MIS</h3>
+        <div class="big-num">2.3억 원 미만</div>
+        <p>용역·물품 기준. 공사는 <b>88억 원 미만</b>. 창업진흥원이 직접 발주·계약합니다.</p>
+      </div>
+      <div class="card">
+        <h3>중앙조달 — 조달청 의무 위탁</h3>
+        <div class="big-num cyan">2.3억 원 이상</div>
+        <p>용역·물품 기준(고시금액). 공사는 <b>88억 원 이상</b>. 조달청에 의무적으로 위탁합니다.</p>
+      </div>
+    </div>
+    <div class="callout tip">
+      <b class="lbl">왜 2.3억 원인가</b>
+      기획재정부 고시금액(고시 제2024-42호, 적용기간 2025.1.1.~2026.12.31.)상 <b>중앙관서 기준 고시금액은 2억 3천만 원</b>이며,
+      창업진흥원은 기타공공기관 운영규정을 통해 이 값을 그대로 준용합니다. 흔히 언급되는 "7.1억 원"은
+      정부조달협정 부속서 등재기관에만 적용되는 값으로, 창업진흥원은 해당하지 <b>않습니다</b>.
+    </div>
+    <div class="callout warn">
+      <b class="lbl">2.3억~7.1억 구간 실적제한 시 안전장치 3종</b>
+      <ul>
+        <li>실적제한이 필요한 사유를 기안 문서에 명시(근거 문서화)</li>
+        <li>실적 기준은 해당 계약목적물 규모·양 또는 추정가격의 <b>1배 이내</b>로 한정</li>
+        <li>실적제한과 지역제한을 동시에 부과하지 않음</li>
+      </ul>
+    </div>
+    <div class="source"><b>근거</b>: 국가계약법 시행령 제2조 제3호·시행규칙 제25조 / 기획재정부 고시 제2024-42호</div>
+  `
+},
+
+{
+  part:"PART 1 · 계약방법", title:"계약방법 필터링", subtitle:"추정가격과 사업 특성에 따라 적용되는 계약방법이 조건부로 결정됩니다.",
+  html:`
+    <div class="grid grid-2">
+      <div class="card">
+        <h3>① 소액수의계약 <span class="badge ok">2천만원 이하</span></h3>
+        <p>추정가격 2천만 원 이하인 물품 제조·구매·임차 또는 용역계약. 별도 자격 제한 없이 수의계약이 가능합니다.</p>
+      </div>
+      <div class="card">
+        <h3>② 약자지원 수의계약 <span class="badge ok">2천만원 초과~1억원</span></h3>
+        <p>추정가격 2천만 원 초과 1억 원 이하이면서, 소기업·소상공인·벤처기업·창업기업 또는 여성기업·장애인기업·사회적기업 등과
+        체결하는 경우 수의계약이 가능합니다.</p>
+      </div>
+      <div class="card">
+        <h3>③ 제한경쟁입찰</h3>
+        <p>중소기업자간 경쟁제품 대상이거나 지역·중소기업 등 참가자격을 제한할 필요가 있는 경우에 적용합니다.</p>
+      </div>
+      <div class="card">
+        <h3>④ 협상에 의한 계약</h3>
+        <p>전문성·기술성·긴급성이 요구되는 지식기반 용역에 적용합니다. 기술능력평가와 입찰가격평가를 합산해 평가합니다.</p>
+      </div>
+    </div>
+    <div class="callout tip">
+      <b class="lbl">협상계약의 평가 비중</b>
+      기본 배점은 <b>기술능력평가 70점 : 입찰가격평가 30점</b>이며, 계약예규 등에 따라 <b>±20점</b> 범위에서 조정할 수 있습니다
+      (예: 전문성이 특히 중요한 사업은 80:20까지 조정 가능). 추정가격이 고시금액(2.3억 원) 미만인 경우
+      기술능력평가 항목 중 <b>수행실적</b> 항목은 평가에서 제외합니다.
+    </div>
+    <div class="source"><b>근거</b>: 국가계약법 시행령 제26조 제1항 제5호 / 협상에 의한 계약 제안서평가 지침 제14조(2026.8.26. 개정)</div>
+  `
+},
+
+{
+  part:"PART 2 · 업무분장", title:"2026년 업무개편 — 권한 분리 및 통제 강화", subtitle:"평가에 대한 내부통제 강화를 위해 2026년부터 계약 체결 및 평가 기능이 재무계약실로 이관되었습니다.",
+  html:`
+    <div class="grid grid-2">
+      <div class="card">
+        <h3>사업부서</h3>
+        <ul>
+          <li>과업지시서 작성 및 예산 수립</li>
+          <li>일상감사 등 사전 행정처리</li>
+          <li>계약 이행 관리 및 검수·대가지급</li>
+        </ul>
+      </div>
+      <div class="card" style="border-color:var(--accent);">
+        <h3>재무계약실 <span class="badge accent">2026 신설 권한</span></h3>
+        <ul>
+          <li>계약방법 및 방침 최종 결정</li>
+          <li>나라장터 공고 및 개찰</li>
+          <li>제안서 평가 위탁 운영 및 낙찰자 결정</li>
+          <li>계약 체결</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout tip">
+      <b class="lbl">신입사원이 기억할 것</b>
+      2025년까지는 사업부서가 계약체결·평가까지 함께 담당했지만, 2026년부터는 <b>평가·체결의 최종 권한이 재무계약실로
+      분리</b>되었습니다. 사업부서 담당자가 과업지시서와 예산을 확정해 재무계약실에 검토를 요청하는 것이 업무의 출발점입니다.
+    </div>
+  `
+},
+
+{
+  part:"PART 2 · Step 1/4", title:"Step 1 · 사전 준비 및 의뢰", subtitle:"",
+  html:`
+    <div class="step-progress"><i class="on"></i><i></i><i></i><i></i></div>
+    <div class="grid grid-3">
+      <div class="card">
+        <h3>예산 및 추정가격 산정</h3>
+        <p><b>추정가격 = 배정예산 − 부가가치세</b>. 모든 금액 기준(고시금액·소액수의 한도 등)은 추정가격을 척도로 판단합니다.</p>
+      </div>
+      <div class="card">
+        <h3>과업지시서 명확화</h3>
+        <p>정량적 어휘를 사용하고, 평가 기준을 명확히 세팅합니다. 모호한 표현은 이후 평가·분쟁 단계에서 문제가 됩니다.</p>
+      </div>
+      <div class="card">
+        <h3>사전 규제검토 <span class="badge danger">필수</span></h3>
+        <ul>
+          <li>수의계약 근거 범위 확인</li>
+          <li>일상감사 완료(2천만 원 이상 수의계약 등)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout tip" style="text-align:center;">
+      전자문서시스템(MIS)을 통해 <b>재무계약실에 계약 검토를 요청</b>하면서 다음 단계로 넘어갑니다.
+    </div>
+  `
+},
+
+{
+  part:"PART 2 · Step 2/4", title:"Step 2 · 공고 및 평가", subtitle:"",
+  html:`
+    <div class="step-progress"><i class="on"></i><i class="on"></i><i></i><i></i></div>
+    <div class="grid grid-2">
+      <div class="card">
+        <h3>공고 기간 산정</h3>
+        <p><b>원칙: 제안서 제출마감일 전날부터 기산하여 40일 전 공고</b>(협상에 의한 계약 기준, 사전규격 공개 3~5일 별도 진행).</p>
+        <p><b>예외 단축(10일 전까지)</b>: 재공고입찰, 예산의 조기집행이 필요한 경우, 다른 사업과의 일정 조정, 긴급한 행사·재해 대응,
+        추정가격이 고시금액(2.3억 원) 미만인 경우.</p>
+      </div>
+      <div class="card">
+        <h3>협상계약 평가 기준</h3>
+        <p><b>기술능력평가 70점 : 입찰가격평가 30점</b>이 기본 배점이며, ±20점 범위에서 조정할 수 있습니다(예: 80:20).</p>
+        <p>추정가격이 고시금액(2.3억 원) 미만이면 <b>수행실적 평가항목을 제외</b>합니다.</p>
+      </div>
+    </div>
+    <div class="callout danger">
+      <b class="lbl">기간 계산 시 주의</b>
+      입찰·제안서 관련 모든 기간의 기산일은 <b>초일을 산입하지 않습니다.</b> "40일 전"을 손으로 계산할 때 첫날을 빠뜨리지 않도록
+      주의합니다.
+    </div>
+    <div class="source"><b>근거</b>: 국가계약법 시행령 제35조 / 협상에 의한 계약 제안서평가 지침 제14조</div>
+  `
+},
+
+{
+  part:"PART 2 · Step 3/4", title:"Step 3 · 협상 및 체결", subtitle:"",
+  html:`
+    <div class="step-progress"><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div>
+    <div class="card">
+      <h3>협상적격자 조건 (둘 다 충족해야 합니다)</h3>
+      <ul>
+        <li>입찰가격이 해당 사업예산(또는 예정가격) <b>이하</b>일 것</li>
+        <li>기술능력평가 점수가 배점한도의 <b>85% 이상</b>일 것</li>
+      </ul>
+    </div>
+    <div class="flow">
+      <div class="step"><b>낙찰(협상적격) 통보</b></div>
+      <div class="arrow">→</div>
+      <div class="step"><b>15일 이내</b>협상 진행<br>(필요 시 협의로 5일 연장 가능)</div>
+      <div class="arrow">→</div>
+      <div class="step"><b>협상 성립 후 10일 이내</b>계약 체결</div>
+    </div>
+    <div class="callout danger">
+      <b class="lbl">부당특약 금지 — 국가계약법 제5조 제3·4항</b>
+      <ul>
+        <li>해당 사업과 무관한 요구사항 추가 금지</li>
+        <li>과도한 요구나 고의적 지연으로 우선협상대상자에게 불이익을 주는 행위 금지</li>
+      </ul>
+      실무적으로는 <b>우선협상대상자 확인서</b>를 징구하여 협상 과정의 공정성을 남깁니다.
+    </div>
+    <div class="source"><b>근거</b>: 협상에 의한 계약체결기준(계약예규 제40호) 제8조·제13조·제15조 / 국가계약법 제5조</div>
+  `
+},
+
+{
+  part:"PART 2 · Step 4/4", title:"Step 4 · 이행 및 대가지급", subtitle:"",
+  html:`
+    <div class="step-progress"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div>
+    <div class="grid grid-3">
+      <div class="card">
+        <h3>① 선금 지급</h3>
+        <p>물품·용역 <b>3억 원 미만</b>(공사는 20억 원 미만) 계약은 <b>최대 50%</b>까지 선금 지급 가능.</p>
+        <p>청구를 받은 날로부터 <b>14일 이내</b> 지급. 선금전용계좌·선금사용계획서 제출이 필수입니다.</p>
+      </div>
+      <div class="card">
+        <h3>② 검사 및 인수</h3>
+        <p>계약금액 <b>3천만 원 초과</b>: 지정된 검사조서 작성 필수.</p>
+        <p>계약금액 <b>3천만 원 이하</b>: MIS 검수 처리로 갈음 가능.</p>
+      </div>
+      <div class="card">
+        <h3>③ 대가 지급</h3>
+        <p>검사 완료 후 청구일로부터 <b>5일 이내</b> 지급(공휴일·토요일 제외).</p>
+      </div>
+    </div>
+    <div class="callout tip">
+      <b class="lbl">세 가지 기한, 헷갈리지 않기</b>
+      <b>검사 기한 14일</b>(시행령 제55조 제1항) / <b>대가지급 기한 5일</b>(시행령 제58조 제1항·내규 제33조 제1항) /
+      <b>선금 지급 기한 14일</b>(내규 제32조 제4항)은 서로 다른 절차의 기한입니다.
+    </div>
+    <div class="source"><b>근거</b>: 계약사무처리규정 제32조·제33조 / 정부 입찰·계약 집행기준(계약예규 제172호)</div>
+  `
+},
+
+{
+  part:"PART 3 · 중소기업보호", title:"중소기업 보호 — 직접생산확인제도", subtitle:"",
+  html:`
+    <div class="grid grid-2">
+      <div class="card">
+        <h3>중소기업자간 경쟁제품</h3>
+        <div class="big-num">616개</div>
+        <p>중소기업벤처부가 지정한 616개 품목은 <b>중소기업만 입찰 참여가 가능</b>합니다. 확인처는 공공구매종합정보망(SMPP)입니다.</p>
+      </div>
+      <div class="card">
+        <h3>직접생산확인제도(직생) <span class="badge accent">필수</span></h3>
+        <p>하도급을 방지하고 실제 생산 능력을 검증하는 필수 절차입니다.</p>
+      </div>
+    </div>
+    <div class="callout warn">
+      <b class="lbl">주의</b>
+      입찰에 참가하는 <b>법인 본체의 직접생산확인증명서만 인정</b>됩니다. 하도급업체의 직생증명서로 대체할 수 없습니다.
+    </div>
+    <div class="callout danger">
+      <b class="lbl">필수 조치</b>
+      직접생산확인이 <b>취소</b>되면 발주기관은 <b>즉시 계약을 해제·해지하여야</b> 합니다(의무 사항).
+    </div>
+    <div class="source"><b>근거</b>: 중소기업제품 구매촉진 및 판로지원에 관한 법률 / 창업진흥원 직생 세부품명 목록(616개, SMPP 연동)</div>
+  `
+},
+
+{
+  part:"PART 3 · 우선구매", title:"우선구매 목표 관리", subtitle:"조달 기획 단계부터 정부권장정책이행 구매 검토서 작성을 통해 법정 목표율 달성을 관리합니다.",
+  html:`
+    <div class="grid grid-4">
+      <div class="card"><h3>기술개발제품</h3><div class="big-num">15%</div><p>중소기업 물품 구매액 기준</p></div>
+      <div class="card"><h3>여성기업</h3><div class="big-num cyan">5%</div><p>물품·용역 기준(공사는 3%)</p></div>
+      <div class="card"><h3>장애인기업</h3><div class="big-num">1%</div><p>총 구매액 기준</p></div>
+      <div class="card"><h3>창업기업</h3><div class="big-num cyan">8%</div><p>제품 총구매액 기준</p></div>
+    </div>
+    <div class="callout tip">
+      <b class="lbl">함께 관리하는 목표</b>
+      중증장애인생산품 1%, 장애인표준사업장 0.8%, 사회적기업 3%, 사회적협동조합 0.1%, 시범구매제품 1% 등도 병행 관리 대상입니다.
+      한 계약이 여러 목표에 동시에 기여할 수 있으므로, 발주 계획 단계에서 미리 검토서에 반영합니다.
+    </div>
+    <div class="source"><b>근거</b>: 판로지원법 제13조의2 / 여성기업지원법 제5조 / 장애인기업활동촉진법 제9조의2 / 중소기업창업지원법 제38조</div>
+  `
+},
+
+{
+  part:"PART 3 · 내부통제", title:"수의계약 내부통제", subtitle:"",
+  html:`
+    <div class="grid grid-2">
+      <div class="card">
+        <h3>Rule 1 — 동일업체 쏠림 방지</h3>
+        <p>같은 해에 동일 업체와의 수의계약은 <b>연 3회 이내</b>로 제한합니다(내규상 일부 예외 사유 있음).</p>
+      </div>
+      <div class="card">
+        <h3>Rule 2 — 퇴직자 영입 통제</h3>
+        <p>창업진흥원 퇴직자가 대표이사·이사·감사 등으로 재직 중인 법인, 또는 퇴직자 개인과는 <b>퇴직일로부터 2년 이내</b>
+        수의계약을 체결할 수 없습니다. 퇴직자 영입현황 확인서 징구가 필수입니다.</p>
+      </div>
+    </div>
+    <div class="callout danger">
+      <b class="lbl">2026 수의계약 사실공개 의무화</b>
+      <ul>
+        <li><b>대상</b>: 추정가격 2천만 원 초과 수의계약(일부 예외 제외)</li>
+        <li><b>조치</b>: 전자계약시스템에 최소 <b>3일 이상</b> 공개</li>
+        <li><b>주의</b>: 견적서 제출 마감일은 공개 기간에 포함되지 않습니다(불산입)</li>
+        <li><b>첨부 필수</b>: 과업지시서 및 수의계약사유서 — 둘 중 하나라도 누락되면 반려됩니다</li>
+      </ul>
+    </div>
+    <div class="source"><b>근거</b>: 계약사무처리규정 제7조의2·제10조(2026.6.30. 개정)</div>
+  `
+},
+
+{
+  part:"PART 3 · 내부통제", title:"분할계약(쪼개기) 금지", subtitle:"",
+  html:`
+    <div class="callout danger">
+      <b class="lbl">원칙</b>
+      일반경쟁 입찰을 회피할 목적으로 <b>시기적으로나 물량적으로 예산을 분할</b>하여 수의계약하는 행위는 엄격히 금지됩니다
+      (국가계약법 시행령 제68조를 준용한 창업진흥원 계약사무처리규정 제11조).
+    </div>
+    <div class="grid grid-2">
+      <div class="card">
+        <h3>허용되는 예외</h3>
+        <ul>
+          <li>다른 법률에 따라 분리 발주해야 하는 경우 (예: 소프트웨어, 정보통신공사)</li>
+          <li>공사의 성질이나 규모 등에 비추어 분할 시공이 효율적인 경우</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>내부 통제 프로토콜</h3>
+        <p>부득이하게 용역을 분리 발주해야 하는 경우, 반드시 <b>원장의 사전 승인</b>을 받아야 합니다.</p>
+      </div>
+    </div>
+    <div class="source"><b>근거</b>: 국가계약법 시행령 제68조 / 계약사무처리규정 제11조</div>
+  `
+},
+
+{
+  part:"PART 3 · 무결성검증", title:"계약 무결성 검증과 제재", subtitle:"",
+  html:`
+    <div class="card">
+      <h3>필수 체크리스트 — KISED 표준서식 적용(2026.6.30. 기준)</h3>
+      <ul class="checklist">
+        <li>수의계약 체결 제한 여부 확인서 (계약 검토 요청 시 필수)</li>
+        <li>청렴계약 이행서약서 (계약서 작성을 생략하는 경우에도 반드시 구비)</li>
+        <li>비밀유지협약서</li>
+        <li>개인정보 수집 동의서</li>
+      </ul>
+    </div>
+    <div class="callout danger">
+      <b class="lbl">위반 시 제재</b>
+      <ul>
+        <li>허위 서류 제출이 적발되면 <b>즉각적인 계약 해제·해지</b></li>
+        <li><b>부정당업자 지정 및 입찰참가자격 제한</b> (국가계약법 제27조)</li>
+      </ul>
+    </div>
+    <div class="source"><b>근거</b>: KISED 공통서식(2026.6.30. 기준, 2026.9.9. 공지) / 국가계약법 제27조</div>
+  `
+},
+
+{
+  part:"PART 4 · 요약", title:"System Active — 전체 조달 여정", subtitle:"",
+  html:`
+    <div class="callout tip" style="font-size:15px;text-align:center;">
+      공공계약은 단순한 '구매'가 아닌, <b>공정성과 사회적 가치를 창출하는 통합 운영 체제</b>입니다.
+    </div>
+    <div class="grid grid-3">
+      <div class="card">
+        <h3>Phase 1 · Planning</h3>
+        <p>명확한 과업 설계 + 우선구매 목표 달성 (Social Value)</p>
+      </div>
+      <div class="card">
+        <h3>Phase 2 · Sourcing</h3>
+        <p>투명한 공고 + 재무계약실의 전문적 평가 (Fairness)</p>
+      </div>
+      <div class="card">
+        <h3>Phase 3 · Execution</h3>
+        <p>적기 선금 지급 + 철저한 이행 및 내부통제 (Efficiency)</p>
+      </div>
+    </div>
+    <div class="callout ok" style="text-align:center;margin-top:20px;">
+      올바른 데이터 입력과 규정 준수가 안전하고 신속한 계약 완료를 보장합니다.
+    </div>
+  `
+},
+
+{
+  part:"PART 4 · 마무리", title:"신입사원 체크리스트 & 참고자료", subtitle:"업무를 시작하기 전, 아래 순서로 스스로 점검해 보세요.",
+  html:`
+    <div class="card" style="margin-bottom:16px;">
+      <h3>계약 검토 요청 전 자가 점검</h3>
+      <ul class="checklist">
+        <li>추정가격을 배정예산에서 부가가치세를 뺀 금액으로 정확히 산정했는가</li>
+        <li>추정가격 기준으로 계약방법(소액수의/약자지원수의/제한경쟁/협상계약)을 올바르게 분류했는가</li>
+        <li>2천만 원 이상 수의계약이라면 일상감사를 완료했는가</li>
+        <li>동일 업체와의 수의계약이 올해 3회를 넘지 않는지 확인했는가</li>
+        <li>퇴직자 영입현황 확인서 등 필수 서류를 빠짐없이 구비했는가</li>
+        <li>과업지시서와 수의계약사유서를 모두 첨부했는가</li>
+      </ul>
+    </div>
+    <div class="grid grid-2">
+      <div class="card">
+        <h3>더 자세히 알아보려면</h3>
+        <p>K-RE 프로젝트의 <code>knowledge/</code> 폴더에 법령·예규·내규 원문과 KISED 공통서식·계약업무 가이드가 정리되어 있습니다.
+        조문 번호나 금액 기준은 항상 원문을 대조해 확인하는 것을 원칙으로 합니다.</p>
+      </div>
+      <div class="card">
+        <h3>모르겠으면</h3>
+        <p>재무계약실 선임자에게 먼저 문의하세요. 이 자료는 신입사원의 빠른 업무 이해를 돕기 위한 요약본이며,
+        실제 계약 판단의 최종 근거는 관계 법령·예규·내규 원문입니다.</p>
+      </div>
+    </div>
+  `
+}
+];
+
+/* =========================================================================
+   렌더링 엔진
+   ========================================================================= */
+const stage = document.getElementById('stage');
+const tocScroll = document.getElementById('toc-scroll');
+const dotsWrap = document.getElementById('dots');
+const counter = document.getElementById('counter');
+
+function slideLabel(i){
+  const s = SLIDES[i];
+  return s.cover ? '표지' : (s.title.length > 16 ? s.title.slice(0,14)+'…' : s.title);
+}
+
+function buildToc(){
+  tocScroll.innerHTML = '';
+  SLIDES.forEach((s,i)=>{
+    const chip = document.createElement('a');
+    chip.className = 'toc-chip';
+    chip.href = '#/' + (i+1);
+    chip.textContent = (i+1) + '. ' + slideLabel(i);
+    chip.dataset.idx = i;
+    tocScroll.appendChild(chip);
+  });
+}
+
+function buildDots(){
+  dotsWrap.innerHTML = '';
+  SLIDES.forEach((s,i)=>{
+    const b = document.createElement('button');
+    b.className = 'dot-btn';
+    b.title = (i+1)+'. '+slideLabel(i);
+    b.addEventListener('click', ()=> go(i+1));
+    dotsWrap.appendChild(b);
+  });
+}
+
+function currentIndex(){
+  const n = parseInt((location.hash.match(/#\/(\d+)/)||[])[1], 10);
+  if(!n || n<1 || n>SLIDES.length) return 0;
+  return n-1;
+}
+
+function render(){
+  const idx = currentIndex();
+  const s = SLIDES[idx];
+  const slideEl = document.createElement('div');
+  slideEl.className = 'slide' + (s.cover ? ' cover' : '');
+  if(s.cover){
+    slideEl.innerHTML = s.html;
+  } else {
+    slideEl.innerHTML = `
+      <div class="eyebrow"><span class="part">${s.part}</span><span class="num">${String(idx+1).padStart(2,'0')} / ${String(SLIDES.length).padStart(2,'0')}</span></div>
+      <h1 class="title">${s.title}</h1>
+      ${s.subtitle ? `<p class="subtitle">${s.subtitle}</p>` : ''}
+      <div class="section-body">${s.html}</div>
+    `;
+  }
+  stage.innerHTML = '';
+  stage.appendChild(slideEl);
+
+  // toc 활성표시
+  [...tocScroll.children].forEach((c,i)=> c.classList.toggle('active', i===idx));
+  const active = tocScroll.children[idx];
+  if(active) active.scrollIntoView({block:'nearest', inline:'center'});
+
+  // dots
+  [...dotsWrap.children].forEach((d,i)=> d.classList.toggle('active', i===idx));
+
+  counter.textContent = (idx+1) + ' / ' + SLIDES.length;
+  document.getElementById('btn-prev').disabled = idx===0;
+  document.getElementById('btn-next').disabled = idx===SLIDES.length-1;
+
+  // 목차 링크 클릭 이동 (toc slide 내부)
+  stage.querySelectorAll('[data-goto]').forEach(el=>{
+    el.addEventListener('click', ()=> go(parseInt(el.dataset.goto,10)));
+  });
+
+  window.scrollTo({top:0, behavior:'instant'});
+}
+
+function go(n){
+  n = Math.max(1, Math.min(SLIDES.length, n));
+  location.hash = '#/' + n;
+}
+
+document.getElementById('btn-prev').addEventListener('click', ()=> go(currentIndex()));
+document.getElementById('btn-next').addEventListener('click', ()=> go(currentIndex()+2));
+
+window.addEventListener('hashchange', render);
+
+document.addEventListener('keydown', (e)=>{
+  if(e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+  if(e.key === 'ArrowRight' || e.key === 'PageDown'){ go(currentIndex()+2); }
+  else if(e.key === 'ArrowLeft' || e.key === 'PageUp'){ go(currentIndex()); }
+  else if(e.key === 'Home'){ go(1); }
+  else if(e.key === 'End'){ go(SLIDES.length); }
+  else if(e.key.toLowerCase() === 'f'){ toggleFullscreen(); }
+  else if(e.key.toLowerCase() === 't'){ toggleTheme(); }
+});
+
+/* 테마 */
+function toggleTheme(){
+  const root = document.documentElement;
+  const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+  if(next === 'dark') root.dataset.theme = 'dark'; else delete root.dataset.theme;
+  localStorage.setItem('kised-lecture-theme', next);
+}
+(function initTheme(){
+  const saved = localStorage.getItem('kised-lecture-theme');
+  if(saved === 'dark') document.documentElement.dataset.theme = 'dark';
+})();
+document.getElementById('btn-theme').addEventListener('click', toggleTheme);
+
+/* 전체화면 */
+function toggleFullscreen(){
+  if(!document.fullscreenElement){ document.documentElement.requestFullscreen().catch(()=>{}); }
+  else { document.exitFullscreen(); }
+}
+document.getElementById('btn-fs').addEventListener('click', toggleFullscreen);
+
+/* 인쇄 */
+document.getElementById('btn-print').addEventListener('click', ()=> window.print());
+
+/* 링크 복사 */
+document.getElementById('copylink').addEventListener('click', ()=>{
+  const url = location.href;
+  navigator.clipboard?.writeText(url).then(()=>{
+    const btn = document.getElementById('copylink');
+    const old = btn.textContent;
+    btn.textContent = '✅ 복사됨';
+    setTimeout(()=> btn.textContent = old, 1200);
+  }).catch(()=>{});
+});
+
+/* 초기화 */
+buildToc();
+buildDots();
+if(!location.hash) location.hash = '#/1';
+render();
+</script>
+</body>
+</html>
