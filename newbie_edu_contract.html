@@ -297,42 +297,79 @@ const SLIDES = [
 },
 
 {
-  part:"목차", title:"전체 지도 — 4개의 파트로 구성됩니다", subtitle:"클릭하면 해당 화면으로 바로 이동합니다.",
+  part:"목차", title:"전체 지도 — 개요 포함 5개의 파트로 구성됩니다", subtitle:"클릭하면 해당 화면으로 바로 이동합니다.",
   html:`
+    <div class="toc-part">
+      <h4>Part 0 · 들어가며</h4>
+      <div class="toc-list">
+        <div class="toc-item" data-goto="3"><span class="n">3</span>공공계약이란? — 정의와 용역 발주의 이유</div>
+      </div>
+    </div>
     <div class="toc-part">
       <h4>Part 1 · 계약의 대원칙과 조달 방식</h4>
       <div class="toc-list">
-        <div class="toc-item" data-goto="3"><span class="n">3</span>계약의 대원칙 — 일반경쟁입찰</div>
-        <div class="toc-item" data-goto="4"><span class="n">4</span>조달 방식의 분기 (자체조달 / 중앙조달)</div>
-        <div class="toc-item" data-goto="5"><span class="n">5</span>계약방법 필터링 (수의·제한·협상)</div>
+        <div class="toc-item" data-goto="4"><span class="n">4</span>계약의 대원칙 — 일반경쟁입찰</div>
+        <div class="toc-item" data-goto="5"><span class="n">5</span>조달 방식의 분기 (자체조달 / 중앙조달)</div>
+        <div class="toc-item" data-goto="6"><span class="n">6</span>계약방법 필터링 (수의·제한·협상)</div>
       </div>
     </div>
     <div class="toc-part">
       <h4>Part 2 · 업무 프로세스 4단계</h4>
       <div class="toc-list">
-        <div class="toc-item" data-goto="6"><span class="n">6</span>2026 권한분리 — 사업부서 vs 재무계약실</div>
-        <div class="toc-item" data-goto="7"><span class="n">7</span>Step 1 · 사전 준비 및 의뢰</div>
-        <div class="toc-item" data-goto="8"><span class="n">8</span>Step 2 · 공고 및 평가</div>
-        <div class="toc-item" data-goto="9"><span class="n">9</span>Step 3 · 협상 및 체결</div>
-        <div class="toc-item" data-goto="10"><span class="n">10</span>Step 4 · 이행 및 대가지급</div>
+        <div class="toc-item" data-goto="7"><span class="n">7</span>2026 권한분리 — 사업부서 vs 재무계약실</div>
+        <div class="toc-item" data-goto="8"><span class="n">8</span>Step 1 · 사전 준비 및 의뢰</div>
+        <div class="toc-item" data-goto="9"><span class="n">9</span>Step 2 · 공고 및 평가</div>
+        <div class="toc-item" data-goto="10"><span class="n">10</span>Step 3 · 협상 및 체결</div>
+        <div class="toc-item" data-goto="11"><span class="n">11</span>Step 4 · 이행 및 대가지급</div>
       </div>
     </div>
     <div class="toc-part">
       <h4>Part 3 · 사회적 가치와 내부통제</h4>
       <div class="toc-list">
-        <div class="toc-item" data-goto="11"><span class="n">11</span>중소기업 보호 — 직접생산확인제도</div>
-        <div class="toc-item" data-goto="12"><span class="n">12</span>우선구매 목표 관리</div>
-        <div class="toc-item" data-goto="13"><span class="n">13</span>수의계약 내부통제</div>
-        <div class="toc-item" data-goto="14"><span class="n">14</span>분할계약(쪼개기) 금지</div>
-        <div class="toc-item" data-goto="15"><span class="n">15</span>계약 무결성 검증과 제재</div>
+        <div class="toc-item" data-goto="12"><span class="n">12</span>중소기업 보호 — 직접생산확인제도</div>
+        <div class="toc-item" data-goto="13"><span class="n">13</span>우선구매 목표 관리</div>
+        <div class="toc-item" data-goto="14"><span class="n">14</span>수의계약 내부통제</div>
+        <div class="toc-item" data-goto="15"><span class="n">15</span>분할계약(쪼개기) 금지</div>
+        <div class="toc-item" data-goto="16"><span class="n">16</span>계약 무결성 검증과 제재</div>
       </div>
     </div>
     <div class="toc-part">
       <h4>Part 4 · 마무리</h4>
       <div class="toc-list">
-        <div class="toc-item" data-goto="16"><span class="n">16</span>전체 여정 요약</div>
-        <div class="toc-item" data-goto="17"><span class="n">17</span>신입사원 체크리스트 &amp; 참고자료</div>
+        <div class="toc-item" data-goto="17"><span class="n">17</span>전체 여정 요약</div>
+        <div class="toc-item" data-goto="18"><span class="n">18</span>신입사원 체크리스트 &amp; 참고자료</div>
       </div>
+    </div>
+  `
+},
+
+{
+  part:"PART 0 · 개요", title:"공공계약이란? — 정의와 용역 발주의 이유", subtitle:"계약사무를 배우기 전에, 왜 이 업무가 필요한지부터 짚고 갑니다.",
+  html:`
+    <div class="card">
+      <h3>공공계약의 정의</h3>
+      <p>국가·지방자치단체·공공기관이 예산(국민의 세금 등 공공재원)을 사용해 물품·공사·용역 등을 조달하기 위해
+      민간 상대방과 체결하는 계약을 말합니다. 사인(私人) 간의 일반 계약과 달리, 집행되는 재원이 공공의 것이기 때문에
+      예산 집행의 <b>투명성·공정성·책임성</b>이 특별히 요구되며, 국가계약법 등 공법적 규율을 받습니다
+      (국가계약법 제1조 목적: 국가를 당사자로 하는 계약에 관한 기본 사항을 정해 계약업무를 원활히 수행하도록 함).
+      창업진흥원은 <b>기타공공기관</b>으로서, 체결하는 모든 계약이 이 틀 안에 있습니다.</p>
+    </div>
+    <div class="card" style="margin-top:14px;">
+      <h3>창업진흥원은 왜 용역을 발주하는가</h3>
+      <p>창업진흥원은 중소벤처기업부 산하 기타공공기관으로서 다양한 창업지원 정책사업을 수행합니다. 그런데 사업마다
+      필요한 전문성과 규모, 기간이 달라 <b>내부 인력만으로 모든 사업을 직접 수행하기 어렵습니다.</b> 이런 경우 연구·운영·
+      컨설팅·시스템 구축 등 전문성이 필요한 업무를 외부 전문기관에 위탁하는 것이 바로 <b>용역 발주</b>입니다.</p>
+      <ul>
+        <li>외부 전문기관의 전문성과 노하우를 확보할 수 있습니다</li>
+        <li>상시 조직으로 감당하기 어려운 사업량 변화에 탄력적으로 대응할 수 있습니다</li>
+        <li>창업진흥원은 사업 설계·관리·감독에 집중하고, 실행은 전문성을 갖춘 상대방이 맡아 정책 목표를 더 효율적으로 달성할 수 있습니다</li>
+      </ul>
+    </div>
+    <div class="callout tip">
+      <b class="lbl">그래서 계약사무가 중요합니다</b>
+      용역을 발주하는 재원은 결국 국민의 세금입니다. 민간기업끼리의 거래와 달리, 특정 업체에 특혜를 주거나
+      자의적으로 상대방을 고르는 일을 막기 위한 <b>공정한 절차</b>가 필요합니다. 다음 장부터 배우는
+      '일반경쟁 입찰 원칙'은 바로 이 문제의식에서 출발합니다.
     </div>
   `
 },
